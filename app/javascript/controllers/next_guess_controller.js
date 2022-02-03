@@ -55,7 +55,7 @@ export default class extends Controller {
         this.squares[this.index].textValue = "";
         this.highlight(this.index)
         break;
-      case /[a-z]/.test(e.key):
+      case /^[a-z]$/.test(e.key):
         if (!this.guessComplete) {
           var square = this.squares[this.index];
           square.textValue = e.key;
