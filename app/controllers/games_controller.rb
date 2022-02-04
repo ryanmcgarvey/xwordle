@@ -4,6 +4,13 @@ class GamesController < ApplicationController
   end
 
   def new
-    @word = File.read(File.join(Rails.root, 'answers.txt')).split.sample
+    @word = words.sample
   end
+
+  private 
+
+  def words
+    File.read(File.join(Rails.root, 'answers.txt')).split + File.read(File.join(Rails.root, 'allowed.txt')).split
+  end
+
 end
