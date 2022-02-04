@@ -1,13 +1,12 @@
 .max-w-7xl.mx-auto.px-4.sm:px-6.lg:px-8
   h1.text-5xl.leading-6.font-medium.text-gray-900
     | XWordle
-  .max-w-3xl.mx-auto[data-controller="main" data-action="next-guess:guess->main#guess"]
-    div[data-main-target="previous"]
-    div[data-controller="next-guess" data-action="keyup@document->next-guess#key"]
-      dl.mt-5.grid.grid-cols-1.gap-5.sm:grid-cols-5
+  .max-w-3xl.mx-auto[data-main-answer-value="moist" data-controller="main" data-action="keyup@document->main#key"]
+    div[data-controller="guess" data-main-target="guess"]
+      .mt-5.grid.grid-cols-1.gap-5.sm:grid-cols-5
         - 5.times do |i|
-          div[data-controller="square" data-square-index-value="#{i}" data-next-guess-target="square"]
-            .px-4.py-5.bg-white.shadow.rounded-lg.overflow-hidden.sm:p-6
+          div[data-controller="square" data-square-index-value="#{i}" data-guess-target="square"]
+            .px-4.py-5.bg-white.shadow.rounded-lg.overflow-hidden.sm:p-6[data-square-target="bg"]
               .mt-1.text-5xl.font-semibold.text-gray-900.w-14.min-w-full.h-12.place-content-center.text-center[data-square-target="text"]
                 |
 
