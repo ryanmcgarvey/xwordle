@@ -43,26 +43,40 @@ export default class extends Controller {
   }
 
   lockIn(answer) {
+    var matches = {};
+
     this.squares.forEach((e, i) => {
       e.highlightedValue = false;
+      matches[e.textValue] ||= 0;
 
       if (e.textValue === answer.charAt(i)) {
-        // console.log("Match " + e.textValue + " at " + i)
+        matches[e.textValue] += 1;
+        console.log("Match: " + e.textValue + matches[e.textValue]);
         e.setFullMatch();
         return;
       }
-      if (answer.includes(e.textValue)) {
-        e.setPartialMatch();
-        return;
-      }
-      e.setMiss()
     });
-    if(this.guess === answer) {
-      return true
-    }else{
-      return false
+    this.squares.forEach((e, i) => {
+      if (e.textValue !== answer.charAt(i)) {
+        if (answer.includes(e.textValue)) {
+          var r = new RegExp("(" + e.textValue + ")", "g");
+          var num_matches = answer.match(r).length;
+          if (num_matches > matches[e.textValue]) {
+            matches[e.textValue] += 1;
+            console.log("Part Match: " + e.textValue + matches[e.textValue]);
+            e.setPartialMatch();
+            return;
+          }
+        }
+        console.log("Miss: " + e.textValue);
+        e.setMiss();
+      }
+    });
+    if (this.guess === answer) {
+      return true;
+    } else {
+      return false;
     }
-    
   }
 
   handleBackspace() {
