@@ -1,7 +1,7 @@
 .max-w-7xl.mx-auto.px-4.sm:px-6.lg:px-8
   h1.text-5xl.leading-6.font-medium.text-gray-900
     | XWordle
-  .max-w-3xl.mx-auto[data-main-answer-value="moist" data-controller="main" data-action="keyup@document->main#key"]
+  .max-w-3xl.mx-auto[data-main-answer-value="#{@word}" data-controller="main" data-action="keyup@document->main#key"]
     div[data-controller="guess" data-main-target="guess"]
       .mt-5.grid.grid-cols-1.gap-5.sm:grid-cols-5
         - 5.times do |i|
