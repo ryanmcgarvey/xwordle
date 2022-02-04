@@ -29,7 +29,7 @@ export default class extends Controller {
     return this.guesses.map((g) => g.guessValue);
   }
 
-  enterGuess() {
+  guessAllowed() {
     var g = this.guessTargets.at(0);
     var new_g = g.cloneNode(true);
     if (g.guess.lockIn(this.answerValue)) {
@@ -40,6 +40,28 @@ export default class extends Controller {
         new_g.guess.reset();
       });
     }
+  }
+
+  guessDenied() {
+    this.guessTargets.at(0).classList.add("animate-bounce");
+    setTimeout(() => {
+      this.guessTargets.at(0).classList.remove("animate-bounce");
+    }, 500);
+  }
+
+  enterGuess() {
+    fetch(`/games?query=${this.currentGuess.guess}`, {
+      headers: { accept: "application/json" },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data)
+        if (data.wordMatch === true) {
+          this.guessAllowed();
+        } else {
+          this.guessDenied();
+        }
+      });
   }
 
   key(e) {

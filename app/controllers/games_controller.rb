@@ -1,6 +1,10 @@
 class GamesController < ApplicationController
   def index
-    @count = session[:count].to_i
+    word = params[:query]
+    match = words.include?(word)
+    respond_to do |format|
+      format.json { render json: { wordMatch: match } }
+    end
   end
 
   def new

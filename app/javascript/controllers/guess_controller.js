@@ -26,6 +26,7 @@ export default class extends Controller {
     return this.index === 0;
   }
 
+
   highlight(index) {
     this.squares.forEach((e) => {
       e.highlightedValue = index === e.indexValue;
@@ -85,6 +86,7 @@ export default class extends Controller {
     }
     this.index -= 1;
     this.squares[this.index].textValue = "";
+    this.guess = this.guess.slice(0,-1)
     this.highlight(this.index);
   }
 
