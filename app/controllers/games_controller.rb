@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  def index
+  def verify 
     word = params[:query]
     match = words.include?(word)
     respond_to do |format|
@@ -7,8 +7,12 @@ class GamesController < ApplicationController
     end
   end
 
-  def new
+  def single 
     @word = words.sample
+  end
+
+  def cross
+    @words - words.sample(5)
   end
 
   private 
