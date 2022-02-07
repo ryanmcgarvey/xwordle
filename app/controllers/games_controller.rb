@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  def verify 
+  def verify
     word = params[:query]
     match = words.include?(word)
     respond_to do |format|
@@ -7,18 +7,17 @@ class GamesController < ApplicationController
     end
   end
 
-  def single 
+  def single
     @word = words.sample
   end
 
   def cross
-    @words - words.sample(5)
+    @words = %w[_mvps _oils exxon lied_ mens_].join(',')
   end
 
-  private 
+  private
 
   def words
     File.read(File.join(Rails.root, 'answers.txt')).split + File.read(File.join(Rails.root, 'allowed.txt')).split
   end
-
 end

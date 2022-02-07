@@ -5,13 +5,13 @@ export default class extends Controller {
   static values = {
     highlighted: { type: Boolean, default: false },
     text: String,
-    index: Number,
+    x: Number,
+    y: Number,
+    blank: {type: Boolean, default: false}
   };
 
   connect() {
     this.element[this.identifier] = this;
-    // console.log("Connecting square " + this.indexValue);
-    // this.highlightedValue = this.indexValue === 0
   }
 
   textValueChanged() {
@@ -51,5 +51,11 @@ export default class extends Controller {
   setMiss() {
     this.bgTarget.classList.remove("bg-white")
     this.bgTarget.classList.add("bg-slate-400");
+  }
+
+  setBlank(){
+    this.blankValue = true
+    this.bgTarget.classList.remove("bg-white")
+    this.bgTarget.classList.add("bg-black");
   }
 }

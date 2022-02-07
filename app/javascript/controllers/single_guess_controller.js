@@ -10,7 +10,7 @@ export default class extends Controller {
   }
 
   connect() {
-    this.element[this.identifier] = this;
+    this.element.guess = this;
     // console.log("connect guess");
   }
 
@@ -57,6 +57,7 @@ export default class extends Controller {
         return;
       }
     });
+
     this.squares.forEach((e, i) => {
       if (e.textValue !== answer.charAt(i)) {
         if (answer.includes(e.textValue)) {

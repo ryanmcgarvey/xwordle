@@ -12,9 +12,17 @@ export default class extends Controller {
 
   connect() {
     console.log("connect main");
-    setTimeout(() => {
+    this.initializeGuess();
+  }
+
+  initializeGuess() {
+    if (this.currentGuess) {
       this.currentGuess.reset();
-    });
+    } else {
+      setTimeout(() => {
+        this.initializeGuess();
+      });
+    }
   }
 
   get guesses() {
@@ -55,7 +63,7 @@ export default class extends Controller {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
+        console.log(data);
         if (data.wordMatch === true) {
           this.guessAllowed();
         } else {
