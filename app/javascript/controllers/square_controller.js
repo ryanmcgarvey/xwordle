@@ -12,6 +12,7 @@ export default class extends Controller {
 
   connect() {
     this.element[this.identifier] = this;
+    console.log("connect square")
   }
 
   textValueChanged() {

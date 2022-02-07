@@ -6,12 +6,26 @@ export default class extends Controller {
   initialize() {
     this.index = 0;
     this.guess = "";
-    // console.log("Init guess");
+    console.log("Init guess");
   }
 
   connect() {
+    console.log("connect guess");
+    this.initializeSquares();
+  }
+
+  initializeSquares() {
+    var numSquares = this.squares.filter((n) => n).length;
+    if (numSquares !== 5) {
+      return setTimeout(() => {
+        console.log("still waiting "+ numSquares);
+        this.initializeSquares();
+      }, 100);
+    }
+
+    console.log("Iniitalizing squares");
+    this.reset();
     this.element.guess = this;
-    // console.log("connect guess");
   }
 
   get squares() {
@@ -26,10 +40,9 @@ export default class extends Controller {
     return this.index === 0;
   }
 
-
   highlight(index) {
     this.squares.forEach((e) => {
-      e.highlightedValue = index === e.indexValue;
+      e.highlightedValue = index === e.xValue;
     });
   }
 
@@ -87,7 +100,7 @@ export default class extends Controller {
     }
     this.index -= 1;
     this.squares[this.index].textValue = "";
-    this.guess = this.guess.slice(0,-1)
+    this.guess = this.guess.slice(0, -1);
     this.highlight(this.index);
   }
 

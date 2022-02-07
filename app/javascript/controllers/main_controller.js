@@ -12,7 +12,6 @@ export default class extends Controller {
 
   connect() {
     console.log("connect main");
-    this.initializeGuess();
   }
 
   initializeGuess() {
@@ -58,7 +57,7 @@ export default class extends Controller {
   }
 
   enterGuess() {
-    fetch(`/games?query=${this.currentGuess.guess}`, {
+    fetch(`/games/verify?query=${this.currentGuess.guess}`, {
       headers: { accept: "application/json" },
     })
       .then((response) => response.json())
