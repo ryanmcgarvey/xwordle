@@ -6,10 +6,16 @@ export default class extends Controller {
   };
   static targets = ["square"];
 
+  get size() {
+    return 5;
+  }
+
   initialize() {
     this.index = 0;
+    this.wordIndex = 0;
     this.guess = "";
     this.answerGrid = [];
+    this.direction = "h";
     console.log("init cross");
   }
 
@@ -24,11 +30,11 @@ export default class extends Controller {
 
   initializeSquares() {
     if (
-      this.squares.filter((n) => n).length !== 25 &&
+      this.squares.filter((n) => n).length !== this.size * this.size &&
       this.answerGrid.length === 0
     ) {
       return setTimeout(() => {
-        console.log("still waiting")
+        console.log("still waiting");
         this.initializeSquares();
       }, 100);
     }
@@ -42,6 +48,7 @@ export default class extends Controller {
       });
     });
 
+    this.reset();
     this.element.guess = this;
   }
 
@@ -50,24 +57,40 @@ export default class extends Controller {
   }
 
   get guessComplete() {
-    return this.index === 25;
+    return this.index === this.size;
   }
 
   get guessEmpty() {
     return this.index === 0;
   }
 
-  highlight(index) {
+  squareAt(row, col) {
+    const totalIndex = row * this.size + col;
+    return this.squares[totalIndex];
+  }
+
+  highlight(word, letter) {
     this.squares.forEach((e) => {
-      e.highlightedValue = index === e.yValue * 5 + e.xValue;
+      e.highlightedValue = letter === e.yValue * this.size + e.xValue;
+      e.focusedValue = false;
     });
+
+    if (this.direction === "h") {
+      for (let i = 0; i < this.size; i++) {
+        this.squareAt(word, i).focusedValue = true;
+      }
+    } else {
+      for (let i = 0; i < this.size; i++) {
+        this.squareAt(i, word).focusedValue = true;
+      }
+    }
   }
 
   reset() {
     console.log("Resetting guess");
     this.index = 0;
     this.guess = "";
-    this.highlight(0);
+    this.highlight(this.wordIndex, 0);
     this.squares.forEach((e) => {
       e.textValue = "";
     });
@@ -132,5 +155,14 @@ export default class extends Controller {
         this.squares[this.index].highlightedValue = true;
       }
     }
+  }
+
+  handleTab() {
+    if (this.direction === "h") {
+      this.direction = "v";
+    } else {
+      this.direction = "h";
+    }
+    this.highlight(this.wordIndex, this.index);
   }
 }

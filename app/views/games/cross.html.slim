@@ -5,7 +5,7 @@
     div[data-main-target="guesses"]
       div[data-controller="cross-guess" data-main-target="guess" data-cross-guess-answer-list-value="#{@words}"]
         - 5.times do |x|
-          .mt-5.grid.grid-cols-1.gap-5.sm:grid-cols-5
+          .mt-5.grid.grid-cols-1.gap-5.sm:grid-cols-5[data-cross-guess-target="row"]
             - 5.times do |y|
               div[data-controller="square" data-square-x-value="#{x}" data-square-y-value="#{y}" data-cross-guess-target="square"]
                 .px-4.py-5.bg-white.shadow.rounded-lg.overflow-hidden.sm:p-6[data-square-target="bg"]

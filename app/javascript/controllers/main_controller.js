@@ -81,9 +81,13 @@ export default class extends Controller {
       case /Backspace/.test(e.key):
         this.currentGuess.handleBackspace();
         break;
+      case / /.test(e.key):
+        this.currentGuess.handleTab();
+        break;
       case /^[a-z]$/.test(e.key):
         this.currentGuess.handleEntry(e.key);
       default:
+        console.log("Could not handle: " + e.key)
         return;
     }
   }

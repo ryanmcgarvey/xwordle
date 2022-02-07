@@ -7,12 +7,13 @@ export default class extends Controller {
     text: String,
     x: Number,
     y: Number,
-    blank: {type: Boolean, default: false}
+    focused: { type: Boolean, default: false },
+    blank: { type: Boolean, default: false },
   };
 
   connect() {
     this.element[this.identifier] = this;
-    console.log("connect square")
+    // console.log("connect square");
   }
 
   textValueChanged() {
@@ -26,37 +27,66 @@ export default class extends Controller {
       this.dim();
     }
   }
+  
+  focusedValueChanged() {
+    if (this.focusedValue === true) {
+      this.focus();
+    } else {
+      this.blur();
+    }
+  }
+
+  get outlineClasses() {
+    return ["outline", "outline-4", "outline-blue-400"];
+  }
 
   highlight() {
-    this.element.classList.add("outline");
-    this.element.classList.add("outline-4");
-    this.element.classList.add("outline-blue-400");
+    this.outlineClasses.forEach((c) => {
+      this.element.classList.add(c);
+    });
   }
 
   dim() {
-    this.element.classList.remove("outline");
-    this.element.classList.remove("outline-4");
-    this.element.classList.remove("outline-blue-400");
+    this.outlineClasses.forEach((c) => {
+      this.element.classList.remove(c);
+    });
+  }
+  
+  get focusClasses() {
+    // return ["ring-yellow-100", "ring-offset-8", "ring-2", "shadow-xl"];
+    return ["shadow-xl"];
+  }
+
+  focus() {
+    this.focusClasses.forEach((c) => {
+      this.element.classList.add(c);
+    });
+  }
+
+  blur() {
+    this.focusClasses.forEach((c) => {
+      this.element.classList.remove(c);
+    });
   }
 
   setFullMatch() {
-    this.bgTarget.classList.remove("bg-white")
-    this.bgTarget.classList.add("bg-green-500")
+    this.bgTarget.classList.remove("bg-white");
+    this.bgTarget.classList.add("bg-green-500");
   }
 
   setPartialMatch() {
-    this.bgTarget.classList.remove("bg-white")
+    this.bgTarget.classList.remove("bg-white");
     this.bgTarget.classList.add("bg-yellow-300");
   }
 
   setMiss() {
-    this.bgTarget.classList.remove("bg-white")
+    this.bgTarget.classList.remove("bg-white");
     this.bgTarget.classList.add("bg-slate-400");
   }
 
-  setBlank(){
-    this.blankValue = true
-    this.bgTarget.classList.remove("bg-white")
+  setBlank() {
+    this.blankValue = true;
+    this.bgTarget.classList.remove("bg-white");
     this.bgTarget.classList.add("bg-black");
   }
 }
