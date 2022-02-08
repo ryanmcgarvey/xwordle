@@ -5,6 +5,7 @@ export default class extends Controller {
   static values = {
     highlighted: { type: Boolean, default: false },
     text: String,
+    answer: { type: String, default: '' },
     x: Number,
     y: Number,
     focused: { type: Boolean, default: false },
@@ -13,7 +14,7 @@ export default class extends Controller {
 
   connect() {
     this.element[this.identifier] = this;
-    // console.log("connect square");
+    console.log("connected square")
   }
 
   textValueChanged() {

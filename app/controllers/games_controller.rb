@@ -12,7 +12,7 @@ class GamesController < ApplicationController
   end
 
   def cross
-    @words = %w[_mvps _oils exxon lied_ mens_].join(',')
+    @words = %w[SCENT CANOE ARSON ROUSE FLEET].map(&:downcase)
   end
 
   private

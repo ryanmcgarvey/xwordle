@@ -1,6 +1,14 @@
 class CrossGenerator
+
+  def get_matches(top_word)
+
+  end
+
   def generate_game
-    top_word = list.sample
+    matches = []
+    list.each do |word|
+      matches << get_matches(word)
+    end
   end
 
   def list

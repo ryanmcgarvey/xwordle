@@ -36,6 +36,16 @@ export default class extends Controller {
     return this.guesses.map((g) => g.guessValue);
   }
 
+  resetCurrentGuess() {
+    if (!this.currentGuess) {
+      setTimeout(() => {
+        this.resetCurrentGuess();
+      }, 100);
+    } else {
+      this.currentGuess.reset();
+    }
+  }
+
   guessAllowed() {
     var g = this.guessTargets.at(0);
     var new_g = g.cloneNode(true);
@@ -43,9 +53,7 @@ export default class extends Controller {
       console.log("You win");
     } else {
       g.parentElement.prepend(new_g);
-      Promise.resolve().then(() => {
-        new_g.guess.reset();
-      });
+      this.resetCurrentGuess();
     }
   }
 
@@ -57,12 +65,13 @@ export default class extends Controller {
   }
 
   enterGuess() {
-    fetch(`/games/verify?query=${this.currentGuess.guess}`, {
+    let guess = this.currentGuess.currentGuess.join("")
+    fetch(`/games/verify?query=${guess}`, {
       headers: { accept: "application/json" },
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        console.log(`Response for ${guess}: ${data}`);
         if (data.wordMatch === true) {
           this.guessAllowed();
         } else {
@@ -81,13 +90,16 @@ export default class extends Controller {
       case /Backspace/.test(e.key):
         this.currentGuess.handleBackspace();
         break;
+      case /Tab/.test(e.key):
       case / /.test(e.key):
+        e.preventDefault();
         this.currentGuess.handleTab();
         break;
       case /^[a-z]$/.test(e.key):
         this.currentGuess.handleEntry(e.key);
+        break;
       default:
-        console.log("Could not handle: " + e.key)
+        console.log("Could not handle: " + e.key);
         return;
     }
   }
