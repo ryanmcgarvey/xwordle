@@ -65,7 +65,7 @@ export default class extends Controller {
   }
 
   enterGuess() {
-    let guess = this.currentGuess.currentGuess.join("")
+    let guess = this.currentGuess.currentGuess;
     fetch(`/games/verify?query=${guess}`, {
       headers: { accept: "application/json" },
     })

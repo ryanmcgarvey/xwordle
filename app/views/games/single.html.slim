@@ -6,7 +6,7 @@
       div[data-controller="single-guess" data-main-target="guess"]
         .mt-5.grid.grid-cols-1.gap-5.sm:grid-cols-5
           - 5.times do |x|
-            div[data-controller="square" data-square-x-value="#{x}" data-square-y-value="#{0}" data-single-guess-target="square"]
+            div[data-controller="square" data-square-x-value="#{x}" data-square-y-value="#{0}" data-single-guess-target="square" data-square-answer-value="#{@word[x]}"]
               .px-4.py-5.bg-white.shadow.rounded-lg.overflow-hidden.sm:p-6[data-square-target="bg"]
                 .mt-1.text-5xl.font-semibold.text-gray-900.w-14.min-w-full.h-12.place-content-center.text-center[data-square-target="text"]
                   |

@@ -67,16 +67,30 @@ export default class extends Controller {
     return this.squaresInWord(this.wordIndex);
   }
 
-  get currentGuess(){
-    return this.squaresInCurrentWord.map((s) => s.textValue);
+  get currentGuess() {
+    return this.guessForWord(this.wordIndex).join("");
   }
 
-  get currentAnswer(){
-    return this.squaresInCurrentWord.map((s) => s.answerValue);
+  get currentAnswer() {
+    return this.answerForWord(this.wordIndex).join("");
+  }
+
+  get puzzleComplete() {
+    [...Array(this.size).keys()].every((w) => {
+      this.guessForWord(w).join("") === this.answerForWord(w).join("");
+    });
+  }
+
+  guessForWord(w) {
+    return this.squaresInWord(w).map((s) => s.textValue);
+  }
+
+  answerForWord(w) {
+    return this.squaresInWord(w).map((s) => s.answerValue);
   }
 
   answerListValueChanged() {
-    this.answerGrid = this.answerListValue.split(",");
+    return (this.answerGrid = this.answerListValue.split(","));
   }
 
   squaresInWord(word) {
@@ -124,8 +138,8 @@ export default class extends Controller {
   lockIn(a) {
     var matches = {};
     var squares = this.squaresInCurrentWord;
-    var answer = this.currentAnswer;
-    var guess = this.currentGuess;
+    var answer = this.answerForWord(this.wordIndex);
+    var guess = this.guessForWord(this.wordIndex);
 
     squares.forEach((e, i) => {
       e.highlightedValue = false;
@@ -157,11 +171,7 @@ export default class extends Controller {
       }
     });
 
-    if (guess.join("") === answer.join("")) {
-      return true;
-    } else {
-      return false;
-    }
+    return this.puzzleComplete;
   }
 
   handleBackspace() {

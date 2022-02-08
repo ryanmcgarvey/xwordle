@@ -18,7 +18,7 @@ export default class extends Controller {
     var numSquares = this.squares.filter((n) => n).length;
     if (numSquares !== 5) {
       return setTimeout(() => {
-        console.log("still waiting "+ numSquares);
+        console.log("still waiting " + numSquares);
         this.initializeSquares();
       }, 100);
     }
@@ -38,6 +38,10 @@ export default class extends Controller {
 
   get guessEmpty() {
     return this.index === 0;
+  }
+
+  get currentGuess() {
+    return this.guess;
   }
 
   highlight(index) {
@@ -65,7 +69,6 @@ export default class extends Controller {
 
       if (e.textValue === answer.charAt(i)) {
         matches[e.textValue] += 1;
-        console.log("Match: " + e.textValue + matches[e.textValue]);
         e.setFullMatch();
         return;
       }
