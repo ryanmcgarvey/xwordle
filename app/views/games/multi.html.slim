@@ -1,0 +1,145 @@
+/!
+  | This example requires Tailwind CSS v2.0+
+  
+  | This example requires some changes to your config:
+  
+  | ```
+  | \// tailwind.config.js
+  | module.exports = {
+  | \// ...
+  | plugins: [
+  | \// ...
+  | require('@tailwindcss/forms'),
+  | ],
+  | }
+  | ```
+/! Background color split screen for large screens
+.fixed.top-0.left-0.h-full.bg-white aria-hidden="true" class="w-1/2" 
+.fixed.top-0.right-0.h-full.bg-gray-50 aria-hidden="true" class="w-1/2" 
+.relative.min-h-screen.flex.flex-col
+  /! Navbar
+  nav.flex-shrink-0.bg-indigo-600
+    .max-w-7xl.mx-auto.px-2.sm:px-4.lg:px-8
+      .relative.flex.items-center.justify-between.h-16
+        /! Logo section
+        .flex.items-center.px-2.lg:px-0.xl:w-64
+          .flex-shrink-0
+            img.h-8.w-auto alt="Workflow" src="https://tailwindui.com/img/logos/workflow-mark-indigo-300.svg" /
+        /! Search section
+        .flex-1.flex.justify-center.lg:justify-end
+          .w-full.px-2.lg:px-6
+            label.sr-only for="search"  Search projects
+            .relative.text-indigo-200.focus-within:text-gray-400
+              .absolute.inset-y-0.left-0.pl-3.flex.items-center.pointer-events-none
+                /! Heroicon name: solid/search
+                svg.h-5.w-5 aria-hidden="true" fill="currentColor" viewbox=("0 0 20 20") xmlns="http://www.w3.org/2000/svg" 
+                  path clip-rule="evenodd" d=("M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z") fill-rule="evenodd" /
+              input#search.block.w-full.pl-10.pr-3.py-2.border.border-transparent.rounded-md.leading-5.bg-indigo-400.bg-opacity-25.text-indigo-100.placeholder-indigo-200.focus:outline-none.focus:bg-white.focus:ring-0.focus:placeholder-gray-400.focus:text-gray-900.sm:text-sm name="search" placeholder=("Search projects") type="search" /
+        .flex.lg:hidden
+          /! Mobile menu button
+          button.bg-indigo-600.inline-flex.items-center.justify-center.p-2.rounded-md.text-indigo-400.hover:text-white.hover:bg-indigo-600.focus:outline-none.focus:ring-2.focus:ring-offset-2.focus:ring-offset-indigo-600.focus:ring-white aria-controls="mobile-menu" aria-expanded="false" type="button" 
+            span.sr-only Open main menu
+            /!
+              | Icon when menu is closed.
+              
+              | Heroicon name: outline/menu-alt-1
+              
+              | Menu open: "hidden", Menu closed: "block"
+            svg.block.h-6.w-6 aria-hidden="true" fill="none" stroke="currentColor" viewbox=("0 0 24 24") xmlns="http://www.w3.org/2000/svg" 
+              path d=("M4 6h16M4 12h8m-8 6h16") stroke-linecap="round" stroke-linejoin="round" stroke-width="2" /
+            /!
+              | Icon when menu is open.
+              
+              | Heroicon name: outline/x
+              
+              | Menu open: "block", Menu closed: "hidden"
+            svg.hidden.h-6.w-6 aria-hidden="true" fill="none" stroke="currentColor" viewbox=("0 0 24 24") xmlns="http://www.w3.org/2000/svg" 
+              path d=("M6 18L18 6M6 6l12 12") stroke-linecap="round" stroke-linejoin="round" stroke-width="2" /
+        /! Links section
+        .hidden.lg:block.lg:w-80
+          .flex.items-center.justify-end
+            .flex
+              a.px-3.py-2.rounded-md.text-sm.font-medium.text-indigo-200.hover:text-white href="#"  Documentation
+              a.px-3.py-2.rounded-md.text-sm.font-medium.text-indigo-200.hover:text-white href="#"  Support
+            /! Profile dropdown
+            .ml-4.relative.flex-shrink-0
+              div
+                button#user-menu-button.bg-indigo-700.flex.text-sm.rounded-full.text-white.focus:outline-none.focus:ring-2.focus:ring-offset-2.focus:ring-offset-indigo-700.focus:ring-white aria-expanded="false" aria-haspopup="true" type="button" 
+                  span.sr-only Open user menu
+                  img.h-8.w-8.rounded-full alt="" src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&h=256&q=80" /
+              /!
+                | Dropdown menu, show/hide based on menu state.
+                
+                | Entering: "transition ease-out duration-100"
+                | From: "transform opacity-0 scale-95"
+                | To: "transform opacity-100 scale-100"
+                | Leaving: "transition ease-in duration-75"
+                | From: "transform opacity-100 scale-100"
+                | To: "transform opacity-0 scale-95"
+              .origin-top-right.absolute.z-10.right-0.mt-2.w-48.rounded-md.shadow-lg.py-1.bg-white.ring-1.ring-black.ring-opacity-5.focus:outline-none aria-labelledby="user-menu-button" aria-orientation="vertical" role="menu" tabindex="-1" 
+                /! Active: "bg-gray-100", Not Active: ""
+                a#user-menu-item-0.block.px-4.py-2.text-sm.text-gray-700 href="#" role="menuitem" tabindex="-1"  View Profile
+                a#user-menu-item-1.block.px-4.py-2.text-sm.text-gray-700 href="#" role="menuitem" tabindex="-1"  Settings
+                a#user-menu-item-2.block.px-4.py-2.text-sm.text-gray-700 href="#" role="menuitem" tabindex="-1"  Logout
+    /! Mobile menu, show/hide based on menu state.
+    #mobile-menu.lg:hidden
+      .px-2.pt-2.pb-3
+        a.block.px-3.py-2.rounded-md.text-base.font-medium.text-white.bg-indigo-800 href="#"  Dashboard
+        a.mt-1.block.px-3.py-2.rounded-md.text-base.font-medium.text-indigo-200.hover:text-indigo-100.hover:bg-indigo-600 href="#"  Support
+      .pt-4.pb-3.border-t.border-indigo-800
+        .px-2
+          a.block.px-3.py-2.rounded-md.text-base.font-medium.text-indigo-200.hover:text-indigo-100.hover:bg-indigo-600 href="#"  Your Profile
+          a.mt-1.block.px-3.py-2.rounded-md.text-base.font-medium.text-indigo-200.hover:text-indigo-100.hover:bg-indigo-600 href="#"  Settings
+          a.mt-1.block.px-3.py-2.rounded-md.text-base.font-medium.text-indigo-200.hover:text-indigo-100.hover:bg-indigo-600 href="#"  Sign out
+  /! 3 column wrapper
+  .flex-grow.w-full.max-w-7xl.mx-auto.xl:px-8.lg:flex
+    /! Left sidebar &amp; main wrapper
+    .flex-1.min-w-0.bg-white.xl:flex
+      .border-b.border-gray-200.xl:border-b-0.xl:flex-shrink-0.xl:w-64.xl:border-r.xl:border-gray-200.bg-white
+        .h-full.pl-4.pr-6.py-6.sm:pl-6.lg:pl-8.xl:pl-0
+          /! Start left column area
+          .h-full.relative style=("min-height: 12rem") 
+            .absolute.inset-0.border-2.border-gray-200.border-dashed.rounded-lg
+          /! End left column area
+      .bg-white.lg:min-w-0.lg:flex-1
+        .h-full.py-6.px-4.sm:px-6.lg:px-8
+          /! Start main area
+          .relative.h-full style=("min-height: 36rem") 
+            .absolute.inset-0.border-2.border-gray-200.border-dashed.rounded-lg
+          /! End main area
+    .bg-gray-50.pr-4.sm:pr-6.lg:pr-8.lg:flex-shrink-0.lg:border-l.lg:border-gray-200.xl:pr-0
+      .h-full.pl-6.py-6.lg:w-80
+        /! Start right column area
+        .h-full.relative style=("min-height: 16rem") 
+          .absolute.inset-0.border-2.border-gray-200.border-dashed.rounded-lg
+        /! End right column area
+
+
+  .flex-grow.w-full.max-w-7xl.mx-auto.xl:px-8.lg:flex
+    /! Left sidebar &amp; main wrapper
+    .flex-1.min-w-0.bg-white.xl:flex
+      .xl:xl:flex-shrink-0.xl:w-64.xl:xl
+
+        .h-full.pl-4.pr-6.py-6.sm:pl-6.lg:pl-8.xl:pl-0
+          /! Start left column area
+          .h-full.relative style=("min-height: 12rem") 
+            .absolute.inset-0
+              h1 column 1
+          /! End left column area
+
+      .min-w-0.lg:flex-1
+        .h-full.py-6.px-4.sm:px-6.lg:px-8
+          /! Start main area
+          .relative.h-full style=("min-height: 36rem") 
+            .absolute.inset-0
+              h1 column 2
+          /! End main area
+    .pr-4.sm:pr-6.lg:pr-8.lg:flex-shrink-0.lg:lg:xl:pr-0
+      .h-full.pl-6.py-6.lg:w-80
+        /! Start right column area
+        .h-full.relative style=("min-height: 16rem") 
+          .absolute.inset-0
+            h1 column 3
+        /! End right column area
+
+      /! End right column area

@@ -1,17 +1,24 @@
 main
-  .container.mx-auto.mt-10.px-5.flex
-    h1.text-5xl.leading-6.font-medium.text-gray-900
-      | XWordle
-  
+  .container
+    .mt-10.mb-10.px-5
+      h1.text-5xl.font-medium.text-gray-900
+        | XWordle
+  .container
+    .grid.gird-cols-2.gap-5
+      h1.text-5xl.font-medium.text-gray-900
+        |Column 1
+      h1.text-5xl.font-medium.text-gray-900
+        |Column 2
+        
+  div
   .container.mx-auto.flex[data-main-answer-value="#{@words}" data-controller="main" data-action="keydown@document->main#key"]
     div[data-main-target="guesses"]
       div[data-controller="cross-guess" data-main-target="guess" data-cross-guess-answer-list-value="#{@words.join(",")}"]
         - 5.times do |y|
-          .mt-5.grid.grid-cols-1.gap-5.sm:grid-cols-5[data-cross-guess-target="row"]
+          .mt-5.grid.grid-cols-5.gap-5.sm[data-cross-guess-target="row"]
             - 5.times do |x|
               div[data-controller="square" data-square-x-value="#{x}" data-square-y-value="#{y}" data-cross-guess-target="square" data-square-answer-value="#{@words[x][y]}"]
                 .px-4.py-5.bg-white.shadow.rounded-lg.overflow-hidden.sm:p-6[data-square-target="bg"]
                   .mt-1.text-5xl.font-semibold.text-gray-900.w-14.min-w-full.h-12.place-content-center.text-center[data-square-target="text"]
                     |
         hr.mt-8.mb-8
-
