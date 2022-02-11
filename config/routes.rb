@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resource :games do
     get :single
     get :cross
+    get :full
     get :verify
   end
   root "games#single"

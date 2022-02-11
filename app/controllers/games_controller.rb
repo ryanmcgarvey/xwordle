@@ -14,6 +14,11 @@ class GamesController < ApplicationController
   def cross
     @words = %w[SCENT CANOE ARSON ROUSE FLEET].map(&:downcase)
   end
+  
+  def full
+    @words = %w[SCENT CANOE ARSON ROUSE FLEET].map(&:downcase)
+  end
+
 
   private
 

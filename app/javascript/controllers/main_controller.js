@@ -47,6 +47,7 @@ export default class extends Controller {
   }
 
   guessAllowed() {
+    console.log("");
     var g = this.guessTargets.at(0);
     var new_g = g.cloneNode(true);
     if (g.guess.lockIn(this.answerValue)) {
@@ -84,7 +85,14 @@ export default class extends Controller {
     switch (true) {
       case /Enter/.test(e.key):
         if (this.currentGuess.guessComplete) {
-          this.enterGuess();
+          console.log("guess complete");
+          this.guessAllowed();
+          break;
+        }
+        if (this.currentGuess.wordComplete) {
+          console.log("word complete");
+          this.currentGuess.handleDown();
+          break;
         }
         break;
       case /Backspace/.test(e.key):
@@ -97,6 +105,28 @@ export default class extends Controller {
         break;
       case /^[a-z]$/.test(e.key):
         this.currentGuess.handleEntry(e.key);
+        break;
+      case /^1$/.test(e.key):
+        ["scarf", "alphas", "betas", "craps", "blarf"].forEach((w) => {
+          w.split("").forEach((c, i) => {
+            this.currentGuess.handleEntry(c);
+          });
+          this.currentGuess.handleDown();
+        });
+        break;
+      case /^2$/.test(e.key):
+        ["scent", "canoe", "arson", "rouse", "fleet"].forEach((w) => {
+          w.split("").forEach((c, i) => {
+            this.currentGuess.handleEntry(c);
+          });
+          this.currentGuess.handleDown();
+        });
+        break;
+      case /ArrowDown/.test(e.key):
+        this.currentGuess.handleDown();
+        break;
+      case /ArrowUp/.test(e.key):
+        this.currentGuess.handleUp();
         break;
       default:
         console.log("Could not handle: " + e.key);

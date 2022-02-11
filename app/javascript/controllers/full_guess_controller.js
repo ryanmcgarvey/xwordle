@@ -15,11 +15,11 @@ export default class extends Controller {
     this.wordIndex = 0;
     this.answerGrid = [];
     this.direction = "h";
-    console.log("init cross");
+    console.log("init full");
   }
 
   connect() {
-    console.log("connect cross");
+    console.log("connect full");
     this.initializeSquares();
   }
 
@@ -44,12 +44,6 @@ export default class extends Controller {
   }
 
   get guessComplete() {
-    return [...Array(this.size).keys()].every((w) => {
-      return this.guessForWord(w).length === this.size;
-    });
-  }
-
-  get wordComplete() {
     return this.index === this.indexOfLastPosition;
   }
 
@@ -82,15 +76,13 @@ export default class extends Controller {
   }
 
   get puzzleComplete() {
-    return [...Array(this.size).keys()].every((w) => {
-      return this.guessForWord(w).join("") === this.answerForWord(w).join("");
+    [...Array(this.size).keys()].every((w) => {
+      this.guessForWord(w).join("") === this.answerForWord(w).join("");
     });
   }
 
   guessForWord(w) {
-    return this.squaresInWord(w)
-      .map((s) => s.textValue)
-      .filter((w) => w !== "");
+    return this.squaresInWord(w).map((s) => s.textValue);
   }
 
   answerForWord(w) {
@@ -120,9 +112,6 @@ export default class extends Controller {
   }
 
   highlight(word, letter) {
-    if (letter >= this.size) {
-      letter = this.size - 1;
-    }
     this.squares.forEach((e) => {
       if (this.direction === "h") {
         e.highlightedValue = letter === e.xValue && word === e.yValue;
@@ -147,41 +136,39 @@ export default class extends Controller {
   }
 
   lockIn(a) {
-    [...Array(this.size).keys()].forEach((w) => {
-      var matches = {};
-      var squares = this.squaresInWord(w);
-      var answer = this.answerForWord(w);
-      var guess = this.guessForWord(w);
+    var matches = {};
+    var squares = this.squaresInCurrentWord;
+    var answer = this.answerForWord(this.wordIndex);
+    var guess = this.guessForWord(this.wordIndex);
 
-      squares.forEach((e, i) => {
-        e.highlightedValue = false;
-        let answerChar = answer[i];
-        let guessChar = guess[i];
-        matches[guessChar] ||= 0;
+    squares.forEach((e, i) => {
+      e.highlightedValue = false;
+      let answerChar = answer[i];
+      let guessChar = guess[i];
+      matches[guessChar] ||= 0;
 
-        if (answerChar === guessChar) {
-          matches[answerChar] += 1;
-          e.setFullMatch();
-          return;
-        }
-      });
+      if (answerChar === guessChar) {
+        matches[answerChar] += 1;
+        e.setFullMatch();
+        return;
+      }
+    });
 
-      squares.forEach((e, i) => {
-        let answerChar = answer[i];
-        let guessChar = guess[i];
-        if (answerChar !== guessChar) {
-          if (answer.includes(guessChar)) {
-            var r = new RegExp("(" + guessChar + ")", "g");
-            var num_matches = answer.join("").match(r).length;
-            if (num_matches > matches[guessChar]) {
-              matches[guessChar] += 1;
-              e.setPartialMatch();
-              return;
-            }
+    squares.forEach((e, i) => {
+      let answerChar = answer[i];
+      let guessChar = guess[i];
+      if (answerChar !== guessChar) {
+        if (answer.includes(guessChar)) {
+          var r = new RegExp("(" + guessChar + ")", "g");
+          var num_matches = answer.join("").match(r).length;
+          if (num_matches > matches[guessChar]) {
+            matches[guessChar] += 1;
+            e.setPartialMatch();
+            return;
           }
-          e.setMiss();
         }
-      });
+        e.setMiss();
+      }
     });
 
     return this.puzzleComplete;
@@ -197,45 +184,18 @@ export default class extends Controller {
     this.highlight(this.wordIndex, this.index);
   }
 
-  lastIndexForWord(word) {
-    var squares = this.squaresInWord(word);
-    for (let i = 0; i < squares.length; i++) {
-      if (squares[i].textValue === "") {
-        return i;
-      }
-    }
-    return this.size;
-  }
-
-  handleUp() {
-    if (this.wordIndex > 0) {
-      this.wordIndex -= 1;
-    }
-    this.index = this.lastIndexForWord(this.wordIndex);
-    this.highlight(this.wordIndex, this.index);
-  }
-
-  handleDown() {
-    if (this.wordIndex < this.size - 1) {
-      this.wordIndex += 1;
-    }
-    this.index = this.lastIndexForWord(this.wordIndex);
-    this.highlight(this.wordIndex, this.index);
-  }
-
   handleEntry(key) {
-    if (!this.wordComplete) {
+    if (!this.guessComplete) {
       var square = this.currentSquare;
       square.textValue = key;
       this.index += 1;
-      if (!this.wordComplete) {
+      if (!this.guessComplete) {
         this.highlight(this.wordIndex, this.index);
       }
     }
   }
 
   handleTab() {
-    return;
     if (this.direction === "h") {
       this.direction = "v";
     } else {
