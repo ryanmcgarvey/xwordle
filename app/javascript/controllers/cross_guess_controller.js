@@ -135,6 +135,12 @@ export default class extends Controller {
     for (let i = 0; i < this.size; i++) {
       this.squareAt(word, i).focusedValue = true;
     }
+
+    this.showHistoryFor(word, this.direction);
+  }
+
+  showHistoryFor(word, direction) {
+
   }
 
   reset() {
