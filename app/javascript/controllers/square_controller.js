@@ -3,22 +3,26 @@ import { Controller } from "@hotwired/stimulus";
 export default class extends Controller {
   static targets = ["text", "bg"];
   static values = {
-    highlighted: { type: Boolean, default: false },
-    text: String,
-    answer: { type: String, default: '' },
     x: Number,
     y: Number,
+    guess: String,
+    answer: { type: String, default: "" },
+    highlighted: { type: Boolean, default: false },
     focused: { type: Boolean, default: false },
-    blank: { type: Boolean, default: false },
+    status: { type: String, default: "none" },
   };
+
+  get match() {
+    return this.answerValue === this.guessValue && this.statusValue === "match";
+  }
 
   connect() {
     this.element[this.identifier] = this;
-    console.log("connected square")
+    console.log("connected square");
   }
 
-  textValueChanged() {
-    this.textTarget.innerHTML = this.textValue;
+  guessValueChanged() {
+    this.textTarget.innerHTML = this.guessValue;
   }
 
   highlightedValueChanged() {
@@ -26,14 +30,6 @@ export default class extends Controller {
       this.highlight();
     } else {
       this.dim();
-    }
-  }
-  
-  focusedValueChanged() {
-    if (this.focusedValue === true) {
-      this.focus();
-    } else {
-      this.blur();
     }
   }
 
@@ -52,9 +48,16 @@ export default class extends Controller {
       this.element.classList.remove(c);
     });
   }
-  
+
+  focusedValueChanged() {
+    if (this.focusedValue === true) {
+      this.focus();
+    } else {
+      this.blur();
+    }
+  }
+
   get focusClasses() {
-    // return ["ring-yellow-100", "ring-offset-8", "ring-2", "shadow-xl"];
     return ["shadow-xl"];
   }
 
@@ -70,24 +73,46 @@ export default class extends Controller {
     });
   }
 
+  statusValueChanged() {
+    switch (this.statusValue) {
+      case "none":
+        this.removeStatus();
+        break;
+      case "match":
+        this.setFullMatch();
+        break;
+      case "partial":
+        this.setPartialMatch();
+        break;
+      case "miss":
+        this.setMiss();
+        break;
+    }
+  }
+
+  removeAllStatus(){
+    ["bg-green-500", "bg-yellow-300", "bg-slate-400", "bg-white"].forEach((c) => {
+      this.bgTarget.classList.remove(c);
+    });
+  }
+
+  removeStatus() {
+    this.removeAllStatus();
+    this.bgTarget.classList.add("bg-white");
+  }
+
   setFullMatch() {
-    this.bgTarget.classList.remove("bg-white");
+    this.removeAllStatus();
     this.bgTarget.classList.add("bg-green-500");
   }
 
   setPartialMatch() {
-    this.bgTarget.classList.remove("bg-white");
+    this.removeAllStatus();
     this.bgTarget.classList.add("bg-yellow-300");
   }
 
   setMiss() {
-    this.bgTarget.classList.remove("bg-white");
+    this.removeAllStatus();
     this.bgTarget.classList.add("bg-slate-400");
-  }
-
-  setBlank() {
-    this.blankValue = true;
-    this.bgTarget.classList.remove("bg-white");
-    this.bgTarget.classList.add("bg-black");
   }
 }

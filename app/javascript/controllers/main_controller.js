@@ -6,24 +6,6 @@ export default class extends Controller {
     answer: String,
   };
 
-  initialize() {
-    console.log("Init main");
-  }
-
-  connect() {
-    console.log("connect main");
-  }
-
-  initializeGuess() {
-    if (this.currentGuess) {
-      this.currentGuess.reset();
-    } else {
-      setTimeout(() => {
-        this.initializeGuess();
-      });
-    }
-  }
-
   get guesses() {
     return this.guessTargets.map((g) => g.guess);
   }
@@ -49,10 +31,10 @@ export default class extends Controller {
   guessAllowed() {
     console.log("");
     var g = this.guessTargets.at(0);
-    var new_g = g.cloneNode(true);
     if (g.guess.lockIn(this.answerValue)) {
       console.log("You win");
     } else {
+      var new_g = g.cloneNode(true);
       g.parentElement.prepend(new_g);
       this.resetCurrentGuess();
     }
