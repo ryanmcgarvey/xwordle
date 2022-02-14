@@ -29,9 +29,8 @@ export default class extends Controller {
   }
 
   guessAllowed() {
-    console.log("");
     var g = this.guessTargets.at(0);
-    if (g.guess.lockIn(this.answerValue)) {
+    if (g.guess.lockIn()) {
       console.log("You win");
     } else {
       var new_g = g.cloneNode(true);
@@ -66,14 +65,14 @@ export default class extends Controller {
   key(e) {
     switch (true) {
       case /Enter/.test(e.key):
-        if (this.currentGuess.guessComplete) {
-          console.log("guess complete");
-          this.guessAllowed();
-          break;
-        }
+        // if (this.currentGuess.guessComplete) {
+        //   console.log("guess complete");
+        //   this.guessAllowed();
+        //   break;
+        // }
         if (this.currentGuess.wordComplete) {
           console.log("word complete");
-          this.currentGuess.handleDown();
+          this.enterGuess();
           break;
         }
         break;

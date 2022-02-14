@@ -120,6 +120,10 @@ export default class extends Controller {
     if (letter >= this.size) {
       letter = this.size - 1;
     }
+
+    // let currentRow = this.currentSquare.yValue;
+    // let currentCol = this.currentSquare.xValue;
+
     this.squares.forEach((e) => {
       if (this.direction === "h") {
         e.highlightedValue = letter === e.xValue && word === e.yValue;
@@ -163,7 +167,7 @@ export default class extends Controller {
     this.highlight(this.wordIndex, this.index);
   }
 
-  lockIn(a) {
+  lockIn() {
     [...Array(this.size).keys()].forEach((w) => {
       var matches = {};
       var squares = this.squaresInWord(w);
@@ -275,12 +279,14 @@ export default class extends Controller {
   }
 
   handleTab() {
-    return;
     if (this.direction === "h") {
       this.direction = "v";
     } else {
       this.direction = "h";
     }
+    let oldIndex = this.index;
+    this.index = this.wordIndex;
+    this.wordIndex = oldIndex;
     this.highlight(this.wordIndex, this.index);
   }
 }
