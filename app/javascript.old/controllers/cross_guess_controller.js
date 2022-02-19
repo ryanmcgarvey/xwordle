@@ -121,9 +121,6 @@ export default class extends Controller {
       letter = this.size - 1;
     }
 
-    // let currentRow = this.currentSquare.yValue;
-    // let currentCol = this.currentSquare.xValue;
-
     this.squares.forEach((e) => {
       if (this.direction === "h") {
         e.highlightedValue = letter === e.xValue && word === e.yValue;
@@ -140,7 +137,9 @@ export default class extends Controller {
     this.showHistoryFor(word, this.direction);
   }
 
-  showHistoryFor(word, direction) {}
+  showHistoryFor(word, direction) {
+    this.dispatch('history', { word, direction });
+  }
 
   firstUnfinishedWord() {
     return this.wordIndexes.findIndex((w) => {

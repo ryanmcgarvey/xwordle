@@ -13,4 +13,9 @@ main.w-full.mt-10.px-5.flex
                     .px-5.py-5.bg-white.shadow.rounded-lg.overflow-hidden[data-square-target="bg"]
                       .mt-1.text-5xl.font-semibold.text-gray-900.w-14.min-w-full.h-12.place-content-center.text-center[data-square-target="text"]
             hr.mt-8.mb-8
-        .bg-blue-100[data-main-target="history"]
+        .bg-blue-100
+          div.mt-5.grid.grid-cols-5.gap-5[data-main-target="history"]
+            - 5.times do |x|
+              div[data-controller="square" data-square-x-value="#{x}" data-square-y-value="#{0}" data-cross-guess-target="square" data-square-answer-value="#{@words[0][x]}"]
+                .px-5.py-5.bg-white.shadow.rounded-lg.overflow-hidden[data-square-target="bg"]
+                  .mt-1.text-5xl.font-semibold.text-gray-900.w-14.min-w-full.h-12.place-content-center.text-center[data-square-target="text"]

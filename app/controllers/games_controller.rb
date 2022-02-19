@@ -18,6 +18,10 @@ class GamesController < ApplicationController
   def full
     @words = %w[SCENT CANOE ARSON ROUSE FLEET].map(&:downcase)
   end
+  
+  def react
+    @words = %w[SCENT CANOE ARSON ROUSE FLEET].map(&:downcase)
+  end
 
 
   private

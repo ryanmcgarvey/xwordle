@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     get :cross
     get :full
     get :verify
+    get :react
   end
-  root "games#single"
+  root "games#react"
 end
