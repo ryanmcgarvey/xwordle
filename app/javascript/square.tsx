@@ -1,18 +1,9 @@
 // Entry point for the build script in your package.json
 // app/javascript/entrypoint.tsx
 import * as React from "react";
-import { GameState } from "./types";
+import { Square as SquareState, SquareStatus } from "./types";
 
-export type SquareStatus = "none" | "match" | "partial" | "miss";
-
-export type Props = {
-  highlighted: Boolean;
-  focused: boolean;
-  status: SquareStatus;
-  text: string;
-};
-
-const Square = (props: Props) => {
+const Square = (props: SquareState) => {
   const bg = (status: SquareStatus) => {
     switch (status) {
       case "match":
@@ -48,7 +39,7 @@ const Square = (props: Props) => {
       )} ${focus(props.focused)} rounded-lg overflow-hidden`}
     >
       <div className="mt-1 text-5xl font-semibold text-gray-900 w-14 min-w-full h-12 place-content-center text-center">
-        {props.text}
+        {props.guess}
       </div>
     </div>
   );
